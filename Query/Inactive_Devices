@@ -1,0 +1,8 @@
+//Devices that didn´t send anything in last 10 Days
+let Alert=10;
+DeviceEvents
+| where TimeGenerated > ago(500d)
+| summarize arg_max(TimeGenerated,*) by DeviceName
+| project TimeGenerated,DeviceName,['Datediff']=datetime_diff('day', now(), TimeGenerated)
+| where Datediff > Alert
+| sort by TimeGenerated asc
