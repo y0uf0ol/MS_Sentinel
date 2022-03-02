@@ -1,0 +1,8 @@
+//inspired from https://github.com/reprise99/Sentinel-Queries/blob/main/Office%20365/EmailEvents-MostBlockedDomains.kql
+EmailEvents
+| where TimeGenerated > ago(1d)
+| where EmailDirection has 'Inbound'
+| where ConfidenceLevel contains "Phish" or ConfidenceLevel contains "Spam"
+| project SenderFromAddress,EmailDirection,ConfidenceLevel, DeliveryAction,TimeGenerated,SenderFromDomain
+| summarize Spam=count() by SenderFromDomain
+| render piechart
