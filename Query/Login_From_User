@@ -1,0 +1,5 @@
+//Login from User, XXXX > relplace with part of the name
+SigninLogs
+| where TimeGenerated > ago(1d)
+| where Identity has "XXXX"
+| project TimeGenerated,Identity,AppDisplayName,IPAddress,AuthenticationRequirement,AuthenticationRequirementPolicies
