@@ -1,0 +1,16 @@
+//Detect usage of of encoded powershell commands
+DeviceEvents
+| where TimeGenerated > ago(1d)
+| where InitiatingProcessFileName has "powershell"
+| where InitiatingProcessCommandLine has "-e" or InitiatingProcessCommandLine has "-encodedcommand"
+//not really important but yolo
+//| where InitiatingProcessCommandLine matches regex "\\b(?:[A-Za-z\\d+/]{4})*(?:[A-Za-z\\d+/]{3}=|[A-Za-z\\d+/]{2}==)?\\b"
+//| where AdditionalFields != ""
+| project
+    TimeGenerated,
+    InitiatingProcessAccountName,
+    DeviceName,
+    InitiatingProcessCommandLine,
+    InitiatingProcessFolderPath,
+    AdditionalFields
+| sort by TimeGenerated desc 
