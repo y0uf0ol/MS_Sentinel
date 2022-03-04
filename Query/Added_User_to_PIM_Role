@@ -1,0 +1,10 @@
+//In work yet
+AuditLogs
+| where TimeGenerated > ago(1d)
+| where OperationName startswith "Add eligible member to role in PIM completed"
+| project TimeGenerated,TargetResources, AccountDisplayName=Identity
+| join (
+        IdentityInfo
+        |summarize arg_max(TimeGenerated,*) by AccountDisplayName
+) on AccountDisplayName
+| project TimeGenerated,AccountDisplayName,TargetResources,AssignedRoles
