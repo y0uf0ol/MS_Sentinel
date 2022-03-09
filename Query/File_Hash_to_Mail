@@ -1,0 +1,12 @@
+//Get Mails with Attachment and file location
+let Hash="XXX";
+EmailAttachmentInfo
+| where SHA256 == Hash
+| take 20
+| project TimeGenerated,RecipientEmailAddress,SenderFromAddress,FileName,SHA256
+| join (
+        DeviceFileEvents
+        | where SHA256 == Hash
+)        
+on SHA256
+| project TimeGenerated,RecipientEmailAddress,SenderFromAddress,FileName,SHA256,FolderPath
