@@ -1,5 +1,6 @@
+//Lists all Group additions in the last day
 SecurityEvent
-| where TimeGenerated > ago (7d)
+| where TimeGenerated > ago (1d)
 | parse MemberName with * 'CN=' AddedObject ',OU' *
 | where EventID in (4728, 4732, 4756, 4761, 4746, 4751)
 | project TimeGenerated, GroupName=TargetUserName, AddedObject, Actor=Account, EventID
