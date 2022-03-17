@@ -1,4 +1,5 @@
 //Lists all Group additions in the last day
+​//inspired from https://github.com/reprise99
 SecurityEvent
 | where TimeGenerated > ago (1d)
 | parse MemberName with * 'CN=' AddedObject ',OU' *
