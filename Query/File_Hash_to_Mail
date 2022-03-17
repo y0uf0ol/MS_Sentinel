@@ -2,7 +2,6 @@
 let Hash="XXX";
 EmailAttachmentInfo
 | where SHA256 == Hash
-| take 20
 | project TimeGenerated,RecipientEmailAddress,SenderFromAddress,FileName,SHA256
 | join (
         DeviceFileEvents
