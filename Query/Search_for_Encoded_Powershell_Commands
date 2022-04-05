@@ -4,9 +4,6 @@ DeviceEvents
 | where TimeGenerated > ago(1d)
 | where InitiatingProcessFileName has "powershell"
 | where InitiatingProcessCommandLine contains "-e" or InitiatingProcessCommandLine contains "-encodedcommand" or InitiatingProcessCommandLine contains "-enc"
-//not really important but yolo
-//| where InitiatingProcessCommandLine matches regex "\\b(?:[A-Za-z\\d+/]{4})*(?:[A-Za-z\\d+/]{3}=|[A-Za-z\\d+/]{2}==)?\\b"
-//| where AdditionalFields != ""
 | project
     TimeGenerated,
     InitiatingProcessAccountName,
