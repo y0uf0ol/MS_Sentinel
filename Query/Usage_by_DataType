@@ -1,0 +1,4 @@
+Usage
+| where TimeGenerated > ago(24h)
+| where IsBillable == true
+| summarize Sum_MB=sum(Quantity) by DataType
