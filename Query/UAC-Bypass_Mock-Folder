@@ -1,4 +1,5 @@
 //this needs mucho work
+//checks for Mock Folder
 DeviceFileEvents
 | where FolderPath contains "\\windows \\"
 | sort by TimeGenerated desc 
