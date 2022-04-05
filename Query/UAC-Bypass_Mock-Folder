@@ -1,0 +1,4 @@
+//this needs mucho work
+DeviceFileEvents
+| where FolderPath contains "\\windows \\"
+| sort by TimeGenerated desc 
