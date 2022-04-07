@@ -1,0 +1,11 @@
+// Exclude PC's with kown cmd or pwsh use
+let PC = dynamic(['UserPC1', 'UserPC2']);
+// CMD Variable, you can add more if you want
+let CMD = dynamic(['cmd.exe', 'powershell.exe']);
+DeviceProcessEvents
+| where not(DeviceName has_any (PC))
+| where InitiatingProcessCommandLine has_any (CMD) or ProcessCommandLine has_any (CMD)
+// looking for users popin shells (not sure if i like this or not)
+| where AccountDomain !has "nt authority"
+| sort by TimeGenerated asc
+| project TimeGenerated,DeviceName,AccountName, InitiatingProcessCommandLine, ProcessCommandLine
