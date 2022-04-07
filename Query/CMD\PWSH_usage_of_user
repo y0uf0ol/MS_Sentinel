@@ -1,7 +1,7 @@
 // Exclude PC's with kown cmd or pwsh use
-let PC = dynamic(['UserPC1', 'UserPC2']);
+let PC = dynamic(['AdminVM1','AdminVM2']);
 // CMD Variable, you can add more if you want
-let CMD = dynamic(['cmd.exe', 'powershell.exe']);
+let CMD = dynamic(['cmd.exe', 'powershell.exe', 'cmd', 'powershell', 'pwsh']);
 DeviceProcessEvents
 | where not(DeviceName has_any (PC))
 | where InitiatingProcessCommandLine has_any (CMD) or ProcessCommandLine has_any (CMD)
