@@ -1,0 +1,7 @@
+// Detect unusual high FileDeleted or FileModified of files by one user
+let DEL = "100";
+DeviceFileEvents
+| where TimeGenerated > ago(1h)
+| where ActionType has "FileDeleted" or ActionType has "FileModified"
+| summarize Deletions=count() by ActionType, InitiatingProcessAccountName
+| where Deletions > toint(DEL)
