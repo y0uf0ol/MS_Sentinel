@@ -1,0 +1,8 @@
+//check for local Admin logins in the last 14D
+let domain = 'DOMAIN'; // change your domain
+DeviceLogonEvents
+| where TimeGenerated > ago(14d)
+| where AccountName contains "Administrator"
+| where  ActionType has "LogonSuccess"
+| where AccountDomain != domain
+| project TimeGenerated, AccountName, DeviceName, RemoteIP, RemotePort,Protocol, AccountDomain
