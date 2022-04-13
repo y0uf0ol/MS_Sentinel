@@ -1,0 +1,17 @@
+// Detect sus long DNS querys
+DeviceNetworkEvents
+| extend ReverseURL=reverse(RemoteUrl)
+//split URL on every Dot
+| extend substring=split(ReverseURL, '.')
+// Combine every substring 
+| extend Combine= strcat(substring[2], ".", substring[3], ".", substring[4], ".", substring[5], ".", substring[6], substring[7], ".", substring[8])
+| extend revCombine=reverse(Combine)
+| where isnotempty(ReverseURL)
+| where string_size(revCombine) > 25 
+| project
+    DeviceName,
+    InitiatingProcessCommandLine,
+    RemoteIP,
+    RemoteUrl,
+    RemotePort,
+    revCombine
