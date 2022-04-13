@@ -3,15 +3,20 @@ DeviceNetworkEvents
 | extend ReverseURL=reverse(RemoteUrl)
 //split URL on every Dot
 | extend substring=split(ReverseURL, '.')
+| extend revDomain=strcat(substring[0], ".", substring[1])
 // Combine every substring 
 | extend Combine= strcat(substring[2], ".", substring[3], ".", substring[4], ".", substring[5], ".", substring[6], substring[7], ".", substring[8])
+// reverse everythin back to normal
 | extend revCombine=reverse(Combine)
+| extend Domain=reverse(revDomain)
 | where isnotempty(ReverseURL)
-| where string_size(revCombine) > 25 
+//check for long string
+| where string_size(revCombine) > 25 // needs to be adjusted
 | project
     DeviceName,
     InitiatingProcessCommandLine,
     RemoteIP,
     RemoteUrl,
     RemotePort,
-    revCombine
+    revCombine,
+    Domain
