@@ -1,4 +1,5 @@
 // Detect sus long DNS querys
+let Whitelist=dynamic(["microsoft"]); //Add your Whitelist
 DeviceNetworkEvents
 | extend ReverseURL=reverse(RemoteUrl)
 //split URL on every Dot
@@ -11,11 +12,14 @@ DeviceNetworkEvents
 | extend Domain=reverse(revDomain)
 | where isnotempty(ReverseURL)
 //check for long string
-| where string_size(revCombine) > 25 // needs to be adjusted
+| where string_size(revCombine) > 50
+// Whitelist filter
+| where not(Domain has_any (Whitelist))
 | project
+    TimeGenerated,
     DeviceName,
-    InitiatingProcessCommandLine,
     RemoteIP,
+    InitiatingProcessCommandLine,
     RemoteUrl,
     RemotePort,
     revCombine,
