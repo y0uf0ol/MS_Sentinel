@@ -8,6 +8,6 @@ DeviceNetworkEvents
 // reverse Domain back to normal
 | extend Domain=reverse(revDomain)
 | where isnotempty(RemoteUrl)
-//check for Domain calls
+//sum Domain calls
 | summarize Calls=count() by Domain
 | sort by Calls desc 
