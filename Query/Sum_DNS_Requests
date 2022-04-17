@@ -1,0 +1,13 @@
+// Detect Endpoint connectiong to domains way too often
+DeviceNetworkEvents
+| extend ReverseURL=reverse(RemoteUrl)
+//split URL on every Dot
+| extend substring=split(ReverseURL, '.')
+// Combine the Domain
+| extend revDomain=strcat(substring[0], ".", substring[1]) 
+// reverse Domain back to normal
+| extend Domain=reverse(revDomain)
+| where isnotempty(RemoteUrl)
+//check for Domain calls
+| summarize Calls=count() by Domain
+| sort by Calls desc 
