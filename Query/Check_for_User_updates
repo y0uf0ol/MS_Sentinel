@@ -1,0 +1,14 @@
+//Look for Account changes
+let Account='NAME';
+AuditLogs
+| where TimeGenerated > ago(30d)
+| where OperationName contains "update"
+| where Category has "UserManagement"
+| project
+    TimeGenerated,
+    ResourceId,
+    Initiator=InitiatedBy.user.userPrincipalName,
+    Target=TargetResources.[0].userPrincipalName,
+    Modified=TargetResources.[0].modifiedProperties
+| where Target contains Account
+| sort by TimeGenerated desc
