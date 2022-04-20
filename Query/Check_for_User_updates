@@ -9,6 +9,7 @@ AuditLogs
     ResourceId,
     Initiator=InitiatedBy.user.userPrincipalName,
     Target=TargetResources.[0].userPrincipalName,
+    // needs some finetuning
     Modified=TargetResources.[0].modifiedProperties
 | where Target contains Account
 | sort by TimeGenerated desc
