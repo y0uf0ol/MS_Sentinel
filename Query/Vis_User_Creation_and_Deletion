@@ -3,7 +3,13 @@ SecurityEvent
 | where TimeGenerated > ago(30d)
 | where EventID == 4720 or EventID == 4726
 | project TimeGenerated, EventID
-| summarize Events=count() by EventID
+| summarize 
+// i saw reprise99 build on a month before -_- 
+// had to steal that part form his query^^
+//https://github.com/reprise99/Sentinel-Queries/blob/main/Active%20Directory/SecurityEvent-VisualizeAccountsCreatedDisabledDeleted.kql
+    ['Creation']=countif(EventID==4720),
+    ['Deletion']=countif(EventID==4726)
+    by EventID
 | render columnchart
 // User Creation = 4720
 // User Deletion = 4726
