@@ -1,0 +1,9 @@
+//visualize all AD Account creations and deletions over the past 30 Days
+SecurityEvent
+| where TimeGenerated > ago(30d)
+| where EventID == 4720 or EventID == 4726
+| project TimeGenerated, EventID
+| summarize Events=count() by EventID
+| render columnchart
+// User Creation = 4720
+// User Deletion = 4726
