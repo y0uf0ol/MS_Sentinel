@@ -1,0 +1,12 @@
+//check for RemoteService Tools in your Enviroment
+let RemoteSupportTool = dynamic(["Anydesk", "Teamviewer", "Fastviewer"]);
+DeviceNetworkEvents
+| where InitiatingProcessFileName has_any (RemoteSupportTool)
+| where ActionType has "ConnectionSuccess"
+| project
+    TimeGenerated,
+    DeviceName,
+    InitiatingProcessCommandLine,
+    LocalIP,
+    RemoteIP,
+    RemoteUrl
