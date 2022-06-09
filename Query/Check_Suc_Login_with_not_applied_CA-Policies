@@ -1,0 +1,27 @@
+SigninLogs
+| where TimeGenerated > ago(1d)
+| where Identity !has "" "On-Premises Directory Synchronization Service Account"
+// extract Details
+| extend City = LocationDetails.city
+| extend OS = DeviceDetail.operatingSystem
+| extend DeviceID = DeviceDetail.deviceId
+| extend Browser = DeviceDetail.browser
+| extend Auth = todynamic(AuthenticationDetails)
+| extend Login = Auth.[0].succeeded
+| extend authenticationMethod = Auth.[0].authenticationMethod
+| where isnotempty(Login)
+| where ConditionalAccessPolicies contains "notApplied"
+| project
+    TimeGenerated,
+    Identity,
+    IPAddress,
+    IsRisky,
+    IPAddressFromResourceProvider,
+    City,
+    OS,
+    DeviceID,
+    Browser,
+    Login,
+    authenticationMethod,
+    ConditionalAccessPolicies
+| sort by TimeGenerated desc 
