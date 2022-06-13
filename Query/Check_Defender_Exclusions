@@ -1,0 +1,6 @@
+//Check for new exclusions
+Event
+| where EventID == 5007
+| where ParameterXml contains "Exclusion"
+| extend ExcludedPath = parse_xml(ParameterXml)
+| project TimeGenerated, Computer, UserName, ExcludedPath
